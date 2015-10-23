@@ -1,7 +1,7 @@
 def begin_game
 
   # INITIALIZE
-  puts "How many players will there be?"
+  puts "Great! How many players will there be?"
   num_players = gets.chomp.to_i
   @players = []
   @loser = nil
@@ -55,7 +55,7 @@ def ask_to_play(again = false)
   puts "would you like to play?"
   answer = gets.chomp.to_s.downcase
   case answer
-  when "yes"
+  when /\s*yes\s*/
     begin_game unless again
     if again then
       puts "Same players?"
@@ -68,7 +68,7 @@ def ask_to_play(again = false)
           puts again
         end
     end
-  when "no"
+  when /\s*no\s*/
     puts "fine.."
   else 
     puts "huh?"

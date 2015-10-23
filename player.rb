@@ -1,8 +1,8 @@
 class Player
 
   attr_accessor :name
+  attr_accessor :health
   attr_reader :score
-  attr_reader :health
 
   def initialize(name)
     @name = name

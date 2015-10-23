@@ -45,34 +45,62 @@ def play_game
         @loser = player.name
         puts "Game over! #{highest_scorer.colorize(:light_magenta)} wins!"
         print "Once again, " 
-        ask_to_play
+        ask_to_play(true)
       end
     end
   end
 end
 
-def ask_to_play
+def ask_to_play(again = false)
   puts "would you like to play?"
   answer = gets.chomp.to_s.downcase
   case answer
   when "yes"
-    begin_game
+    begin_game unless again
+    if again then
+      puts "Same players?"
+        again = gets.chomp == 'yes'
+        if again then
+          puts "great!"
+          reset_players
+          play_game
+        else
+          puts again
+        end
+    end
   when "no"
     puts "fine.."
   else 
     puts "huh?"
-    ask_to_play
+    ask_to_play(again)
   end
 
 end
 
 def highest_scorer
-  highest_scorer = @players[0]
-  # tie = false
+  winner = @players[0]
   @players.each do |player|
-    # tie = true if player.score == highest_scorer.score
-    highest_scorer = player if player.score > highest_scorer.score
+    winner = player if player.score > winner.score
   end
-  highest_scorer.name
-  # "In a tie, everybody" if tie
+  if tied(winner.score) then
+    "When there's a tie, nobody" 
+  else
+    winner.name
+  end
+end
+
+def reset_players
+  puts
+  @players.each do |player|
+    player.health = 3
+    @loser = nil
+  end
+end
+
+def tied(score)
+  counter = 0
+  @players.each do |player|
+    counter += 1 if player.score == score
+  end
+  counter >= 2
 end
